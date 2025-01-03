@@ -24,29 +24,48 @@ If URL is '/' (home page), assign ID as 'home'
   {name}
 </a>
 
+
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    let url = window.location.pathname;
-    let urlSegments = url.split("/");
-    let navId;
+window.addEventListener('hashchange', function() {
+  
+  let url = window.location.hash;
+  let navId;
 
-    if (url === "/") {
-      navId = "home";
-    } else {
-      navId = url.replace("/", "");
-    }
+  console.log(url);
 
-    let nav = document.getElementById(navId);
+  if (url === "/") {
+    navId = "home";
+  } else {
+    navId = url
+  }
 
-    if (nav) {
-      nav.classList.remove(
-        "text-neutral-600",
-        "dark:text-neutral-400",
-        "hover:text-neutral-500",
-        "dark:hover:text-neutral-500"
+  console.log(navId)
+  let navBar = document.getElementById("navbar-collapse-with-animation");
+  if (navBar) {
+    const links = navBar.querySelectorAll('a');
+    links.forEach(link => {
+      link.classList.remove(
+        "text-orange-400", "dark:text-yellow-400"
       );
-      nav.classList.add("text-orange-400", "dark:text-orange-300");
-      nav.setAttribute("aria-current", "page");
+      if(link.id === navId) {
+        link.classList.add("text-orange-400", "dark:text-yellow-400");
+      }
+    });
+  }
+
+  // Hide the collapse
+  // TODO: should be a function and executed on click
+  const HSCollapse = window.HSCollapse
+  HSCollapse.hide('.hs-collapse-toggle')
+});
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // on load page set the active nav item
+     let homeNavItem = document.getElementById("home");
+
+    if (homeNavItem) {
+      homeNavItem.classList.add("text-orange-400", "dark:text-yellow-400");
+      homeNavItem.setAttribute("aria-current", "page");
     }
   });
 </script>
